@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import time
@@ -12,7 +13,7 @@ import requests
 import websocket
 
 
-CDP_HTTP = "http://127.0.0.1:9222"
+CDP_HTTP = os.environ.get("GOOFISH_CDP_HTTP", "http://127.0.0.1:9222").rstrip("/")
 GOOFISH_HOST = "goofish.com"
 AUTO_MARKERS = [
     "本店无人值守",

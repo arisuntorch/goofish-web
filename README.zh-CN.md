@@ -23,52 +23,75 @@
 
 ## 运行前提
 
+- Linux、macOS 或 Windows
 - 浏览器里已经登录闲鱼
-- Chrome DevTools HTTP 已暴露在 `http://127.0.0.1:9222`
+- Chrome DevTools HTTP 已暴露在 `http://127.0.0.1:9222`，或者通过 `GOOFISH_CDP_HTTP` 指向自定义地址
 - Python 3.12+
 - Python 依赖：
   - `requests`
   - `websocket-client`
 
+## 平台说明
+
+脚本本身是跨平台的。这个仓库虽然是在 Windows 环境下开发出来的，但实现本身并不依赖 PowerShell 或 Windows 专用 API。
+
+Linux 上常见的浏览器启动方式是：
+
+```bash
+google-chrome --remote-debugging-port=9222
+```
+
+或者：
+
+```bash
+chromium --remote-debugging-port=9222
+```
+
+如果你使用的是别的 CDP 端口，可以这样指定：
+
+```bash
+export GOOFISH_CDP_HTTP=http://127.0.0.1:9333
+```
+
 ## 快速开始
 
 列出当前闲鱼标签页：
 
-```powershell
-python scripts/goofish_web.py list-pages
+```bash
+python3 scripts/goofish_web.py list-pages
 ```
 
 读取搜索结果：
 
-```powershell
-python scripts/goofish_web.py search --page search --query "openclaw deployment"
-python scripts/goofish_web.py read-search --page search --limit 5
+```bash
+python3 scripts/goofish_web.py search --page search --query "openclaw deployment"
+python3 scripts/goofish_web.py read-search --page search --limit 5
 ```
 
 打开商品并读取商品页：
 
-```powershell
-python scripts/goofish_web.py open-item --page search --index 0
-python scripts/goofish_web.py read-item --page item
+```bash
+python3 scripts/goofish_web.py open-item --page search --index 0
+python3 scripts/goofish_web.py read-item --page item
 ```
 
 进入聊天并读取当前会话：
 
-```powershell
-python scripts/goofish_web.py open-chat --page item
-python scripts/goofish_web.py read-chat --page chat
+```bash
+python3 scripts/goofish_web.py open-chat --page item
+python3 scripts/goofish_web.py read-chat --page chat
 ```
 
 安全切换到指定卖家：
 
-```powershell
-python scripts/goofish_web.py switch-conversation --page chat --name "seller-name" --exact
+```bash
+python3 scripts/goofish_web.py switch-conversation --page chat --name "seller-name" --exact
 ```
 
 检查某条消息是否看起来已经发出：
 
-```powershell
-python scripts/goofish_web.py check-send --page chat --expect-contact "seller-name" --message "hello"
+```bash
+python3 scripts/goofish_web.py check-send --page chat --expect-contact "seller-name" --message "hello"
 ```
 
 ## 安全模型

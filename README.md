@@ -23,52 +23,75 @@ It is built for tasks such as:
 
 ## Requirements
 
+- Linux, macOS, or Windows
 - a logged-in Goofish browser session
-- Chrome DevTools HTTP exposed at `http://127.0.0.1:9222`
+- Chrome DevTools HTTP exposed at `http://127.0.0.1:9222`, or a custom endpoint passed through `GOOFISH_CDP_HTTP`
 - Python 3.12+
 - Python packages:
   - `requests`
   - `websocket-client`
 
+## Platform Notes
+
+The script itself is cross-platform. The current repository was developed on Windows, but the implementation does not depend on PowerShell or Windows-only APIs.
+
+On Linux, a typical setup looks like:
+
+```bash
+google-chrome --remote-debugging-port=9222
+```
+
+or:
+
+```bash
+chromium --remote-debugging-port=9222
+```
+
+If you use a different CDP port:
+
+```bash
+export GOOFISH_CDP_HTTP=http://127.0.0.1:9333
+```
+
 ## Quick Start
 
 List current Goofish tabs:
 
-```powershell
-python scripts/goofish_web.py list-pages
+```bash
+python3 scripts/goofish_web.py list-pages
 ```
 
 Read visible search results:
 
-```powershell
-python scripts/goofish_web.py search --page search --query "openclaw deployment"
-python scripts/goofish_web.py read-search --page search --limit 5
+```bash
+python3 scripts/goofish_web.py search --page search --query "openclaw deployment"
+python3 scripts/goofish_web.py read-search --page search --limit 5
 ```
 
 Open an item and inspect it:
 
-```powershell
-python scripts/goofish_web.py open-item --page search --index 0
-python scripts/goofish_web.py read-item --page item
+```bash
+python3 scripts/goofish_web.py open-item --page search --index 0
+python3 scripts/goofish_web.py read-item --page item
 ```
 
 Enter chat and inspect the current conversation:
 
-```powershell
-python scripts/goofish_web.py open-chat --page item
-python scripts/goofish_web.py read-chat --page chat
+```bash
+python3 scripts/goofish_web.py open-chat --page item
+python3 scripts/goofish_web.py read-chat --page chat
 ```
 
 Switch to a seller safely:
 
-```powershell
-python scripts/goofish_web.py switch-conversation --page chat --name "seller-name" --exact
+```bash
+python3 scripts/goofish_web.py switch-conversation --page chat --name "seller-name" --exact
 ```
 
 Check whether a message appears to have been sent:
 
-```powershell
-python scripts/goofish_web.py check-send --page chat --expect-contact "seller-name" --message "hello"
+```bash
+python3 scripts/goofish_web.py check-send --page chat --expect-contact "seller-name" --message "hello"
 ```
 
 ## Safety Model

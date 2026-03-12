@@ -7,41 +7,61 @@ description: Safely operate the Goofish/Xianyu/闲鱼 web app from an already-op
 
 Use this skill against an already logged-in Goofish browser session with Chrome DevTools exposed on `http://127.0.0.1:9222`.
 
+This skill is cross-platform at the script level. Windows, Linux, and macOS are all fine as long as:
+
+- Python can run `scripts/goofish_web.py`
+- the browser exposes CDP
+- Goofish is already logged in
+
+If the CDP endpoint is not the default one, set `GOOFISH_CDP_HTTP` before running commands.
+
 The bundled script is the default interface:
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py <command> ...
+```sh
+python scripts/goofish_web.py <command> ...
 ```
 
 Read [references/page-model.md](./references/page-model.md) when you need the DOM model, send-verification rules, auto-reply heuristics, or failure modes.
+
+On Linux, a common launch pattern is:
+
+```sh
+google-chrome --remote-debugging-port=9222
+```
+
+or:
+
+```sh
+chromium --remote-debugging-port=9222
+```
 
 ## Workflow
 
 1. Discover the active Goofish tabs.
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py list-pages
+```sh
+python scripts/goofish_web.py list-pages
 ```
 
 2. If you need product discovery, drive a disposable search or item tab, not the active chat tab.
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py search --page search --query "openclaw部署"
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py open-item --page search --index 0
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py read-item --page item
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py open-chat --page item
+```sh
+python scripts/goofish_web.py search --page search --query "openclaw部署"
+python scripts/goofish_web.py open-item --page search --index 0
+python scripts/goofish_web.py read-item --page item
+python scripts/goofish_web.py open-chat --page item
 ```
 
 3. Before any chat action, inspect chat state and confirm the current contact from the right-side top bar.
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py read-chat --page chat
+```sh
+python scripts/goofish_web.py read-chat --page chat
 ```
 
 4. When switching sellers, use the conversation switcher and verify the contact after the switch.
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py switch-conversation --page chat --name "低调的华丽"
+```sh
+python scripts/goofish_web.py switch-conversation --page chat --name "低调的华丽"
 ```
 
 5. When checking whether a message was really sent, do not trust only the URL or the send button state. Verify all of:
@@ -50,8 +70,8 @@ python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py switch-co
    - the sent text appears in the latest chat tail or outgoing bubble
    - the latest outgoing status is not `失败`
 
-```powershell
-python C:\Users\arisu\.codex\skills\goofish-web\scripts\goofish_web.py check-send --page chat --expect-contact "低调的华丽" --message "你好，想了解下远程部署和售后。"
+```sh
+python scripts/goofish_web.py check-send --page chat --expect-contact "低调的华丽" --message "你好，想了解下远程部署和售后。"
 ```
 
 ## Safety Rules
