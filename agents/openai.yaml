@@ -1,0 +1,4 @@
+interface:
+  display_name: "Goofish Web"
+  short_description: "Operate Goofish web search, item, and chat flows safely."
+  default_prompt: "Use $goofish-web to inspect Goofish search results, item pages, and chat state before taking action."
