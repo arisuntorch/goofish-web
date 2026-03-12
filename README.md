@@ -1,5 +1,7 @@
 # goofish-web
 
+[中文说明](./README.zh-CN.md)
+
 `goofish-web` is a Codex skill plus a small CDP helper script for operating the Goofish/Xianyu web app from an already-open logged-in browser session.
 
 It is built for tasks such as:
